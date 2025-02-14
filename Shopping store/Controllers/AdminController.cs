@@ -68,6 +68,6 @@ namespace Shopping_store.Controllers
         }
 
         IActionResult ToHomeIndex()
-            => RedirectToAction("Index", "Home");
+            => RedirectToAction("Index d", "Home");
     }
 }
