@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Add";
+}
+@model Car
+
+<h4>Product:</h4>
+
+<div class="d-flex justify-content-center">
+    <div class="card">
+        <img class="card-img-top" src="@Model.UrlImage" alt="@Model.Name" width="310" height="210">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@Format.FormatMoney(Model.PriceDollars.Value)</p>
+        </div>
+    </div>
+</div>
+
+<h4>Was successfully added to cart</h4>
+<br />
+<a class="btn btn-primary" asp-action="Index" asp-controller="Home">Continue shopping</a>
+<a class="btn btn-primary" asp-action="ListOfCars" asp-controller="ShoppingCart">
+    Place an order
+</a>
