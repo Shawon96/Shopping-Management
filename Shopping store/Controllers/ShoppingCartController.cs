@@ -22,7 +22,7 @@ namespace Shopping_store.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(Guid carId,string url = null)
+        public IActionResult Add(Guid carId, string url = null)
         {
             Car car = db.Cars.FirstOrDefault(c => c.Id == carId);
 
@@ -101,7 +101,7 @@ namespace Shopping_store.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(Guid carId,bool all = false)
+        public IActionResult Delete(Guid carId, bool all = false)
         {
             Car car = db.Cars.FirstOrDefault(c => c.Id == carId);
 
