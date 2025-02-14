@@ -5,7 +5,7 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <a asp-action="Add" asp-controller="Admin" class="btn btn-primary">Добавить</a>
+    <a asp-action="Add" asp-controller="Admin" class="btn btn-primary">Add</a>
     <hr />
 }
 
@@ -30,13 +30,15 @@
                         <h5 class="card-title">@Model[j].Name</h5>
                         <p class="card-text">@Format.FormatMoney(Model[j].PriceDollars.Value)</p>
                         <a asp-action="Add" asp-controller="ShoppingCart" asp-route-carId="@Model[j].Id"
-                   class="btn btn-primary">В корзину</a>
+                            class="btn btn-primary">Add to cart</a>
                         @if (User.IsInRole("Admin"))
                         {
                             <hr />
-                            <a asp-action="Update" asp-controller="Admin" asp-route-carId="@Model[j].Id" class="btn btn-primary">Изменить</a>
+                            <a asp-action="Update" asp-controller="Admin" asp-route-carId="@Model[j].Id"
+                                class="btn btn-primary">Change</a>
                             <hr />
-                            <a asp-action="Delete" asp-controller="Admin" asp-route-carId="@Model[j].Id" class="btn btn-danger">Удалить</a>
+                            <a asp-action="Delete" asp-controller="Admin" asp-route-carId="@Model[j].Id"
+                                class="btn btn-danger">Delete</a>
                         }
                     </div>
                 </div>

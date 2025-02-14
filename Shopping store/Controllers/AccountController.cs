@@ -28,7 +28,8 @@ namespace Shopping_store.Controllers
             if (ModelState.IsValid)
             {
                 string email = model.Email;
-                User user = new User { Email = email, UserName = email };
+                string phoneNumber = model.PhoneNumber;
+                User user = new User { Email = email, UserName = email, PhoneNumber = phoneNumber };
 
 
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
@@ -59,7 +60,7 @@ namespace Shopping_store.Controllers
                     return RedirectToDefaultPage();
                 }
                 else
-                    ModelState.AddModelError(string.Empty, "Неверный пароль или(и) логин");
+                    ModelState.AddModelError(string.Empty, "Incorrect password or/and login");
             }
             return View(model);
         }

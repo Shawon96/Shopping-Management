@@ -1,24 +1,43 @@
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shopping_store.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shopping_store
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            IHost host = CreateHostBuilder(args).Build();
+            var builder = WebApplication.CreateBuilder(args);
 
-            using (IServiceScope scope = host.Services.CreateScope())
+            // Configuration and services setup
+            string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<StoreContext>(options =>
+                options.UseNpgsql(connection));
+
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<StoreContext>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Register";
+                });
+
+            builder.Services.AddControllersWithViews();
+
+            var app = builder.Build();
+
+            // Initialize roles on startup
+            using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
@@ -30,18 +49,30 @@ namespace Shopping_store
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "Не получается добавить начальные данные в бд");
+                    logger.LogError(ex, "An error occurred while initializing the roles.");
                 }
             }
 
-            host.Run();
-        }
+            // Configure the HTTP request pipeline
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapDefaultControllerRoute();
+
+            await app.RunAsync();
+        }
     }
 }

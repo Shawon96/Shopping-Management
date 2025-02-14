@@ -4,17 +4,17 @@ namespace Shopping_store.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Введите свою почту")]
+        [Required(ErrorMessage = "Enter your email")]
         [EmailAddress]
-        [Display(Name = "Почта")]
+        [Display(Name = "Mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Введите пароль")]
+        [Required(ErrorMessage = "Enter password")]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Запомнить меня")]
+        [Display(Name = "Remember me")]
         public bool RememberMe { get; set; }
     }
 }

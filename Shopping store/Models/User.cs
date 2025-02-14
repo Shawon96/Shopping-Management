@@ -6,9 +6,8 @@ namespace Shopping_store.Models
 {
     public class User : IdentityUser
     {
-        public List<Order> Orders { get; set; }
-        public List<Car> Cars { get; set; }
-
-        public List<CountCarsForUser> Counts { get; set; }
+        public List<Order> Orders { get; set; } = new();
+        public List<Car> Cars { get; set; } = new();
+        public List<CountCarsForUser> Counts { get; set; } = new();
     }
 }
